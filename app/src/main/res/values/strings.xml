@@ -3,4 +3,5 @@
     <string name="distanciaAserPercorrida">Distância a ser percorrida (km)</string>
     <string name="consumo_Medio">Consumo médio (km/L)</string>
     <string name="precoCombus">Preço do combustivel (EUR/L)</string>
+    <string name="custo_total">Custo total da viagem: %1$.2f EUR</string>
 </resources>
