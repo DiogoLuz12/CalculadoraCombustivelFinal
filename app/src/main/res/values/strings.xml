@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Calculadora Combustivel</string>
+    <string name="distanciaAserPercorrida">Distância a ser percorrida (km)</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -18,6 +19,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -45,6 +50,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
+
+    var distanciaTotal by remember { mutableStateOf("") }
+
     Column (
         modifier = Modifier
             .statusBarsPadding()
@@ -60,6 +68,10 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
                 .padding(bottom = 15.dp, top = 35.dp)
                 .align(alignment = Alignment.Start)
         )
+        EditNumberField(label = R.string.distanciaAserPercorrida,
+            value = distanciaTotal,
+            onValueChanged = {distanciaTotal = it},
+            modifier = Modifier.padding(bottom = 30.dp).fillMaxWidth())
     }
 }
 
