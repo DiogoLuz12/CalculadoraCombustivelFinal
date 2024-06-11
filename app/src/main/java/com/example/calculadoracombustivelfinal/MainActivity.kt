@@ -103,7 +103,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         )
         Button(
             onClick = {
-                custoTotal.value = calculateTotalCost(
+                custoTotal.doubleValue = calculateTotalCost(
                     distanciaTotal.toDoubleOrNull() ?: 0.0,
                     consumoMedio.toDoubleOrNull() ?: 0.0,
                     precoCombustivel.toDoubleOrNull() ?: 0.0
@@ -114,7 +114,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
             Text(text = "Calcular")
         }
         Text(
-            text = stringResource(R.string.custo_total, custoTotal.value),
+            text = stringResource(R.string.custo_total, custoTotal.doubleValue),
             style = MaterialTheme.typography.bodyLarge
         )
         Spacer(modifier = Modifier.height(150.dp))
@@ -143,7 +143,7 @@ fun EditNumberField(
 
 fun calculateTotalCost(distancia: Double, consumoMedio: Double, precoCombustivel: Double): Double {
 
-    val quantidadeCombustivel = distancia / consumoMedio
+    val quantidadeCombustivel = (distancia / 100.0) * consumoMedio
     return quantidadeCombustivel * precoCombustivel
 }
 
