@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
 fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
 
     var distanciaTotal by remember { mutableStateOf("") }
+    var consumoMedio by remember { mutableStateOf("") }
 
     Column (
         modifier = Modifier
@@ -71,7 +72,17 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         EditNumberField(label = R.string.distanciaAserPercorrida,
             value = distanciaTotal,
             onValueChanged = {distanciaTotal = it},
-            modifier = Modifier.padding(bottom = 30.dp).fillMaxWidth())
+            modifier = Modifier
+                .padding(bottom = 30.dp)
+                .fillMaxWidth()
+        )
+        EditNumberField(label = R.string.consumo_Medio ,
+            value = consumoMedio ,
+            onValueChanged = {consumoMedio = it},
+            modifier = Modifier
+                .padding(bottom = 30.dp)
+                .fillMaxWidth()
+        )
     }
 }
 
