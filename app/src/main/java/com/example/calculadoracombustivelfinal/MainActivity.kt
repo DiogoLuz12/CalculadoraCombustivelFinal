@@ -12,13 +12,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.calculadoracombustivelfinal.ui.theme.CalculadoraCombustivelFinalTheme
@@ -58,6 +61,25 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
                 .align(alignment = Alignment.Start)
         )
     }
+}
+
+
+@Composable
+fun EditNumberField(
+    @StringRes label: Int,
+    value: String,
+    onValueChanged: (String) -> Unit,
+    modifier: Modifier = Modifier
+){
+    TextField(
+        value = value,
+        singleLine = true,
+        modifier = modifier,
+        onValueChange = onValueChanged,
+        label = { Text(stringResource(label)) },
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+    )
+
 }
 
 @Preview(showBackground = true)
