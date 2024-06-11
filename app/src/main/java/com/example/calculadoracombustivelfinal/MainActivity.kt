@@ -53,6 +53,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
 
     var distanciaTotal by remember { mutableStateOf("") }
     var consumoMedio by remember { mutableStateOf("") }
+    var precoCombustivel by remember { mutableStateOf("") }
 
     Column (
         modifier = Modifier
@@ -69,16 +70,26 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
                 .padding(bottom = 15.dp, top = 35.dp)
                 .align(alignment = Alignment.Start)
         )
-        EditNumberField(label = R.string.distanciaAserPercorrida,
+        EditNumberField(
+            label = R.string.distanciaAserPercorrida,
             value = distanciaTotal,
             onValueChanged = {distanciaTotal = it},
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth()
         )
-        EditNumberField(label = R.string.consumo_Medio ,
+        EditNumberField(
+            label = R.string.consumo_Medio ,
             value = consumoMedio ,
             onValueChanged = {consumoMedio = it},
+            modifier = Modifier
+                .padding(bottom = 30.dp)
+                .fillMaxWidth()
+        )
+        EditNumberField(
+            label = R.string.precoCombus ,
+            value = precoCombustivel,
+            onValueChanged = {precoCombustivel = it},
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth()
