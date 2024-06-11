@@ -18,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,11 +26,13 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,6 +64,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
     var precoCombustivel by remember { mutableStateOf("") }
 
     val custoTotal = remember { mutableDoubleStateOf(0.0) }
+    val historico = remember { mutableStateListOf<CalculoCombustivel>()  }
 
     Column (
         modifier = Modifier
@@ -103,11 +107,13 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         )
         Button(
             onClick = {
-                custoTotal.doubleValue = calculateTotalCost(
-                    distanciaTotal.toDoubleOrNull() ?: 0.0,
-                    consumoMedio.toDoubleOrNull() ?: 0.0,
-                    precoCombustivel.toDoubleOrNull() ?: 0.0
-                )
+
+                    val distancia = distanciaTotal.toDoubleOrNull() ?: 0.0
+                    val consumo = consumoMedio.toDoubleOrNull() ?: 0.0
+                    val preco =precoCombustivel.toDoubleOrNull() ?: 0.0
+                    val custo = calculateTotalCost(distancia, consumo, preco)
+                    custoTotal.doubleValue = custo
+                    historico.add(CalculoCombustivel(distancia, consumo, preco, custo))
             },
             modifier = Modifier.padding(bottom = 32.dp)
         ) {
@@ -117,6 +123,8 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
             text = stringResource(R.string.custo_total, custoTotal.doubleValue),
             style = MaterialTheme.typography.bodyLarge
         )
+        Spacer(modifier = Modifier.height(20.dp))
+        HistoricoList(historico)
         Spacer(modifier = Modifier.height(150.dp))
 
     }
@@ -140,6 +148,30 @@ fun EditNumberField(
     )
 
 }
+
+
+data class CalculoCombustivel(
+    val distancia: Double,
+    val consumoMedio: Double,
+    val precoCombustivel: Double,
+    val custoTotal: Double
+)
+
+
+@Composable
+fun HistoricoList(historico: List<CalculoCombustivel>) {
+    Column {
+        Text(text = stringResource(R.string.historico_de_calculos), style = MaterialTheme.typography.headlineSmall)
+        for (calculo in historico) {
+            Text(
+                text = "Distância: ${calculo.distancia} km, Consumo: ${calculo.consumoMedio} L/100 km, Preço: €${calculo.precoCombustivel}/L, Custo: €${calculo.custoTotal}",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Divider(color = Color.Gray, thickness = 1.dp)
+        }
+    }
+}
+
 
 fun calculateTotalCost(distancia: Double, consumoMedio: Double, precoCombustivel: Double): Double {
 
