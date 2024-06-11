@@ -164,7 +164,7 @@ fun HistoricoList(historico: List<CalculoCombustivel>) {
         Text(text = stringResource(R.string.historico_de_calculos), style = MaterialTheme.typography.headlineSmall)
         for (calculo in historico) {
             Text(
-                text = "Distância: ${calculo.distancia} km, Consumo: ${calculo.consumoMedio} L/100 km, Preço: €${calculo.precoCombustivel}/L, Custo: €${calculo.custoTotal}",
+                text = "Distância: ${calculo.distancia} km, Consumo: ${calculo.consumoMedio} L/100 km, Preço: €${calculo.precoCombustivel}/L, Custo: €${String.format("%.2f", calculo.custoTotal)}",
                 style = MaterialTheme.typography.bodyLarge
             )
             Divider(color = Color.Gray, thickness = 1.dp)
