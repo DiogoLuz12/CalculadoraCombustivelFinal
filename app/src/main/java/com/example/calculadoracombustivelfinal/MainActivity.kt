@@ -82,7 +82,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
             text = stringResource(R.string.app_name),
             modifier = Modifier
                 .padding(bottom = 15.dp, top = 35.dp)
-                .align(alignment = Alignment.Start)
+                .align(alignment = Alignment.Start),
         )
         EditNumberField(
             label = R.string.distanciaAserPercorrida,
@@ -90,7 +90,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
             onValueChanged = { distanciaTotal = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
         EditNumberField(
             label = R.string.consumo_Medio,
@@ -122,19 +122,20 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
                     showError = true
                 }
             },
-            modifier = Modifier.padding(bottom = 32.dp)
+            modifier = Modifier.padding(bottom = 32.dp),
         ) {
             Text(text = "Calcular")
         }
         Text(
             text = stringResource(R.string.custo_total, custoTotal.doubleValue),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
         )
         Spacer(modifier = Modifier.height(20.dp))
         HistoricoList(historico)
         Spacer(modifier = Modifier.height(150.dp))
 
         if (showError) {
+            //Utilizado para mensagens temporárias
             Snackbar(
                 modifier = Modifier.padding(16.dp),
                 action = {
