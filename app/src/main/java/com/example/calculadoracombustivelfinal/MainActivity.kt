@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -64,7 +66,8 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
     var precoCombustivel by remember { mutableStateOf("") }
 
     val custoTotal = remember { mutableDoubleStateOf(0.0) }
-    val historico = remember { mutableStateListOf<CalculoCombustivel>()  }
+    val historico = remember { mutableStateListOf<CalculoCombustivel>() }
+    var showError by remember { mutableStateOf(false) }
 
     Column (
         modifier = Modifier
@@ -74,7 +77,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
             .safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ){
+    ) {
         Text(
             text = stringResource(R.string.app_name),
             modifier = Modifier
@@ -84,23 +87,23 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         EditNumberField(
             label = R.string.distanciaAserPercorrida,
             value = distanciaTotal,
-            onValueChanged = {distanciaTotal = it},
+            onValueChanged = { distanciaTotal = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth()
         )
         EditNumberField(
-            label = R.string.consumo_Medio ,
-            value = consumoMedio ,
-            onValueChanged = {consumoMedio = it},
+            label = R.string.consumo_Medio,
+            value = consumoMedio,
+            onValueChanged = { consumoMedio = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth()
         )
         EditNumberField(
-            label = R.string.precoCombus ,
+            label = R.string.precoCombus,
             value = precoCombustivel,
-            onValueChanged = {precoCombustivel = it},
+            onValueChanged = { precoCombustivel = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth()
@@ -108,12 +111,16 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         Button(
             onClick = {
 
-                    val distancia = distanciaTotal.toDoubleOrNull() ?: 0.0
-                    val consumo = consumoMedio.toDoubleOrNull() ?: 0.0
-                    val preco =precoCombustivel.toDoubleOrNull() ?: 0.0
+                val distancia = distanciaTotal.toDoubleOrNull() ?: 0.0
+                val consumo = consumoMedio.toDoubleOrNull() ?: 0.0
+                val preco = precoCombustivel.toDoubleOrNull() ?: 0.0
+                if (distancia >= 0 && consumo >= 0 && preco >= 0) {
                     val custo = calculateTotalCost(distancia, consumo, preco)
-                    custoTotal.doubleValue = custo
+                    custoTotal.value = custo
                     historico.add(CalculoCombustivel(distancia, consumo, preco, custo))
+                } else {
+                    showError = true
+                }
             },
             modifier = Modifier.padding(bottom = 32.dp)
         ) {
@@ -127,6 +134,20 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         HistoricoList(historico)
         Spacer(modifier = Modifier.height(150.dp))
 
+        if (showError) {
+            Snackbar(
+                modifier = Modifier.padding(16.dp),
+                action = {
+                    Button(onClick = { showError = false }) {
+                        Text(text = "OK")
+                    }
+                }
+            ) {
+                Text("Por favor, insira valores válidos.")
+            }
+
+
+        }
     }
 }
 
@@ -163,14 +184,24 @@ fun HistoricoList(historico: List<CalculoCombustivel>) {
     Column {
         Text(text = stringResource(R.string.historico_de_calculos), style = MaterialTheme.typography.headlineSmall)
         for (calculo in historico) {
-            Text(
-                text = "Distância: ${calculo.distancia} km, Consumo: ${calculo.consumoMedio} L/100 km, Preço: €${calculo.precoCombustivel}/L, Custo: €${String.format("%.2f", calculo.custoTotal)}",
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Divider(color = Color.Gray, thickness = 1.dp)
+            Row{
+                Text(
+                    text = "Distância: ${calculo.distancia} km, Consumo: ${calculo.consumoMedio} L/100 km, Preço: €${calculo.precoCombustivel}/L, Custo: €${String.format("%.2f", calculo.custoTotal)}",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+            }
+                    
         }
+        Divider(color = Color.Gray, thickness = 1.dp)
+
     }
+
 }
+
+
+
+
 
 
 fun calculateTotalCost(distancia: Double, consumoMedio: Double, precoCombustivel: Double): Double {
