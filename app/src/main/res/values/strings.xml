@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Calculadora Combustivel</string>
     <string name="distanciaAserPercorrida">Distância a ser percorrida (km)</string>
-    <string name="consumo_Medio">Consumo médio (km/L)</string>
-    <string name="precoCombus">Preço do combustivel (L/100km)</string>
+    <string name="consumo_Medio">Consumo médio (L/100km)</string>
+    <string name="precoCombus">Preço do combustivel (L)</string>
     <string name="custo_total">Custo total da viagem: %1$.2f EUR</string>
     <string name="historico_de_calculos">Histórico de Cálculos</string>
 </resources>
