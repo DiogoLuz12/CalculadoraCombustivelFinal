@@ -79,7 +79,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(R.string.app_name),
+            text = stringResource(R.string.app_name),style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
                 .padding(bottom = 15.dp, top = 35.dp)
                 .align(alignment = Alignment.Start),
