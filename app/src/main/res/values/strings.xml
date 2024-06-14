@@ -5,4 +5,7 @@
     <string name="precoCombus">Preço do combustivel (L)</string>
     <string name="custo_total">Custo total da viagem: %1$.2f EUR</string>
     <string name="historico_de_calculos">Histórico de Cálculos</string>
+    <string name="app_name2">Calculadora Elétrica</string>
+    <string name="consumo_Medio2">Consumo médio (kWh/100km)</string>
+    <string name="precoEnergia">Preço da Energia (€/kWh)</string>
 </resources>

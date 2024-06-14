@@ -1,5 +1,7 @@
 package com.example.calculadoracombustivelfinal
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,11 +37,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.calculadoracarroseletricos.EletricoActivity
 import com.example.calculadoracombustivelfinal.ui.theme.CalculadoraCombustivelFinalTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +66,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
 
+    val context = LocalContext.current
     var nomeViagem by remember { mutableStateOf("") }
     var distanciaTotal by remember { mutableStateOf("") }
     var consumoMedio by remember { mutableStateOf("") }
@@ -79,6 +85,9 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
+            Text(text = "Calculadora dos elétricos")
+        }
         Text(
             text = stringResource(R.string.app_name),style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
@@ -158,7 +167,12 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
 
 
         }
+
     }
+}
+
+fun navigateToActivity(context: Context, activityClass: Class<*>) {
+    context.startActivity(Intent(context, activityClass))
 }
 
 
@@ -202,7 +216,7 @@ fun HistoricoList(historico: List<CalculoCombustivel>) {
                 )
 
             }
-                    
+
         }
         Divider(color = Color.Gray, thickness = 1.dp)
 
