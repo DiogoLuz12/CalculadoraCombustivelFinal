@@ -61,6 +61,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
 
+    var nomeViagem by remember { mutableStateOf("") }
     var distanciaTotal by remember { mutableStateOf("") }
     var consumoMedio by remember { mutableStateOf("") }
     var precoCombustivel by remember { mutableStateOf("") }
@@ -83,6 +84,14 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(bottom = 15.dp, top = 35.dp)
                 .align(alignment = Alignment.Start),
+        )
+        TextField(
+            value = nomeViagem,
+            onValueChange = { nomeViagem = it },
+            label = { Text("Nome da Viagem") }, // Label para a nova TextField
+            modifier = Modifier
+                .padding(bottom = 30.dp)
+                .fillMaxWidth()
         )
         EditNumberField(
             label = R.string.distanciaAserPercorrida,
@@ -117,7 +126,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
                 if (distancia >= 0 && consumo >= 0 && preco >= 0) {
                     val custo = calculateTotalCost(distancia, consumo, preco)
                     custoTotal.value = custo
-                    historico.add(CalculoCombustivel(distancia, consumo, preco, custo))
+                    historico.add(CalculoCombustivel(distancia, consumo, preco, custo, nomeViagem))
                 } else {
                     showError = true
                 }
@@ -176,7 +185,8 @@ data class CalculoCombustivel(
     val distancia: Double,
     val consumoMedio: Double,
     val precoCombustivel: Double,
-    val custoTotal: Double
+    val custoTotal: Double,
+    val nomeViagem: String
 )
 
 
@@ -187,7 +197,7 @@ fun HistoricoList(historico: List<CalculoCombustivel>) {
         for (calculo in historico) {
             Row{
                 Text(
-                    text = "Distância: ${calculo.distancia} km, Consumo: ${calculo.consumoMedio} L/100 km, Preço: €${calculo.precoCombustivel}/L, Custo: €${String.format("%.2f", calculo.custoTotal)}",
+                    text = "Nome da viagem: ${calculo.nomeViagem}, Distância: ${calculo.distancia} km, Consumo: ${calculo.consumoMedio} L/100 km, Preço: €${calculo.precoCombustivel}/L, Custo: €${String.format("%.2f", calculo.custoTotal)}",
                     style = MaterialTheme.typography.bodyLarge
                 )
 
@@ -199,11 +209,6 @@ fun HistoricoList(historico: List<CalculoCombustivel>) {
     }
 
 }
-
-
-
-
-
 
 fun calculateTotalCost(distancia: Double, consumoMedio: Double, precoCombustivel: Double): Double {
 
