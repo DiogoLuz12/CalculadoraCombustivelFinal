@@ -97,19 +97,18 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
 
-        TopAppBar(
-            title = {},
-            navigationIcon = {
-                             IconButton(
-                                 onClick = {
-                                     navigateToActivity(context, MainActivity::class.java)
-                                 }
-                             ) {
-                                 Icon(Icons.Default.ArrowBack, contentDescription = "back")
-                             }
-            },
 
-        )
+
+        IconButton(
+            onClick = {
+                navigateToActivity(context, MainActivity::class.java)
+            }
+        ) {
+            Icon(Icons.Default.ArrowBack, contentDescription = "back")
+        }
+
+
+
         Text(
             text = stringResource(R.string.app_name2), style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier

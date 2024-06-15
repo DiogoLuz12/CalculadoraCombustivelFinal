@@ -96,12 +96,11 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Top
 
     ) {
-        TopAppBar(
-            title = {},
-            actions = { Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
+
+        Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
                 Text(text = "Calculadora Eletrico")
-            }}
-        )
+        }
+
         Text(
             text = stringResource(R.string.app_name),style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
