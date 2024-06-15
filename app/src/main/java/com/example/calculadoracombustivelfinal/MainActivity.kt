@@ -86,6 +86,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
 
 
 
+
     Column (
         modifier = Modifier
             .statusBarsPadding()
@@ -96,9 +97,9 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Top
 
     ) {
-
-        Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
-                Text(text = "Calculadora Eletrico")
+        Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }
+        ) {
+            Text(text = "Calculadora Eletrico")
         }
 
         Text(
