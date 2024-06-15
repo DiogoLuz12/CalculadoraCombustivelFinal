@@ -20,13 +20,20 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
@@ -66,6 +73,7 @@ class EletricoActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
 
@@ -89,9 +97,19 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
 
-        Button(onClick = { navigateToActivity(context, MainActivity::class.java) }) {
-            Text(text = "Calculadora de Combustível")
-        }
+        TopAppBar(
+            title = {},
+            navigationIcon = {
+                             IconButton(
+                                 onClick = {
+                                     navigateToActivity(context, MainActivity::class.java)
+                                 }
+                             ) {
+                                 Icon(Icons.Default.ArrowBack, contentDescription = "back")
+                             }
+            },
+
+        )
         Text(
             text = stringResource(R.string.app_name2), style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier

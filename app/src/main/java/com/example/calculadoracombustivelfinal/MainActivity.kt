@@ -20,13 +20,20 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
@@ -63,6 +70,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
 
@@ -88,9 +96,12 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Top
 
     ) {
-        Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
-            Text(text = "Calculadora dos Elétricos")
-        }
+        TopAppBar(
+            title = {},
+            actions = { Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
+                Text(text = "Calculadora Eletrico")
+            }}
+        )
         Text(
             text = stringResource(R.string.app_name),style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
