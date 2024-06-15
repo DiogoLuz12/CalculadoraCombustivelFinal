@@ -87,6 +87,15 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
     val historico = remember { mutableStateListOf<CalculoEnergia>() }
     var showError by remember { mutableStateOf(false) }
 
+    IconButton(
+        onClick = {
+            navigateToActivity(context, MainActivity::class.java)
+        }
+    ) {
+        Icon(Icons.Default.ArrowBack, contentDescription = "back")
+    }
+    Spacer(modifier = Modifier
+        .padding(horizontal = 90.dp))
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -96,18 +105,6 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-
-
-        IconButton(
-            onClick = {
-                navigateToActivity(context, MainActivity::class.java)
-            }
-        ) {
-            Icon(Icons.Default.ArrowBack, contentDescription = "back")
-        }
-
-
 
         Text(
             text = stringResource(R.string.app_name2), style = MaterialTheme.typography.headlineSmall,
