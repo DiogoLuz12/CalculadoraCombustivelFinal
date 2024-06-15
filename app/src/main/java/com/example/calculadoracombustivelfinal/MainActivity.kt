@@ -76,6 +76,8 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
     val historico = remember { mutableStateListOf<CalculoCombustivel>() }
     var showError by remember { mutableStateOf(false) }
 
+
+
     Column (
         modifier = Modifier
             .statusBarsPadding()
@@ -83,10 +85,11 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState())
             .safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
+
     ) {
         Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
-            Text(text = "Calculadora dos elétricos")
+            Text(text = "Calculadora dos Elétricos")
         }
         Text(
             text = stringResource(R.string.app_name),style = MaterialTheme.typography.headlineSmall,
