@@ -13,4 +13,6 @@
     <string name="preco_gasoleo">Preço do Gasóleo (EUR)</string>
     <string name="consumo_gasolina">Consumo da Gasolina (km/L)</string>
     <string name="consumo_gasoleo">Consumo do Gasoleo (km/L)</string>
+
+
 </resources>

@@ -154,6 +154,9 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
                 val preco = precoEnergia.toDoubleOrNull() ?: 0.0
                 if (distancia >= 0 && consumo >= 0 && preco >= 0) {
                     val custo = calculateTotalCostEletrico(distancia, consumo, preco)
+                    val resultsIntent = Intent()
+                    resultsIntent.putExtra("ELETRIC_COST", custo)
+                    custoTotal.value = custo
                     custoTotal.doubleValue = custo
                     historico.add(CalculoEnergia(distancia, consumo, preco, custo, nomeViagem))
                 } else {

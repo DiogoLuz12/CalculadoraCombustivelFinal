@@ -1,5 +1,6 @@
 package com.example.calculadoracombustivelfinal
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -67,7 +68,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
 
@@ -102,6 +103,7 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         ) {
             Text(text = stringResource(R.string.app_name2))
         }
+
 
         Text(
             text = stringResource(R.string.app_name),style = MaterialTheme.typography.headlineSmall,
@@ -184,6 +186,10 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         }
 
     }
+}
+
+fun setResult(resultOk: Int, resultsIntent: Intent) {
+
 }
 
 fun navigateToActivity(context: Context, activityClass: Class<*>) {
