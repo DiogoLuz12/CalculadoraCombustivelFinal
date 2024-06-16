@@ -49,7 +49,7 @@ class CompareFuelsActivity : ComponentActivity() {
 @Composable
 fun CompareLayout(name: String, modifier: Modifier = Modifier) {
     var gasolinePrice by remember { mutableStateOf("") }
-    var ethanolPrice by remember { mutableStateOf("") }
+    var gasoleoPrice by remember { mutableStateOf("") }
     var gasolineConsumption by remember { mutableStateOf("") }
     var ethanolConsumption by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
@@ -74,9 +74,9 @@ fun CompareLayout(name: String, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
 
         EditNumberField(
-            label = R.string.preco_etanol,
-            value = ethanolPrice,
-            onValueChanged = { ethanolPrice = it }
+            label = R.string.preco_gasoleo,
+            value = gasoleoPrice,
+            onValueChanged = { gasoleoPrice = it }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -99,7 +99,7 @@ fun CompareLayout(name: String, modifier: Modifier = Modifier) {
 
         Button(onClick = {
             val gasolinePriceValue = gasolinePrice.toDoubleOrNull() ?: 0.0
-            val ethanolPriceValue = ethanolPrice.toDoubleOrNull() ?: 0.0
+            val ethanolPriceValue = gasoleoPrice.toDoubleOrNull() ?: 0.0
             val gasolineConsumptionValue = gasolineConsumption.toDoubleOrNull() ?: 0.0
             val ethanolConsumptionValue = ethanolConsumption.toDoubleOrNull() ?: 0.0
 
