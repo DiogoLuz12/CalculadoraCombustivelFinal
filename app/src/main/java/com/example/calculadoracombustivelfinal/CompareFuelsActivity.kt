@@ -1,20 +1,38 @@
 package com.example.calculadoracombustivelfinal
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.calculadoracombustivelfinal.ui.theme.CalculadoraCombustivelFinalTheme
 
-class CompareFuelsActivity : AppCompatActivity() {
+class CompareFuelsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main2)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        setContent{
+            CalculadoraCombustivelFinalTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()){innerPadding ->
+                    CalculoCombustivelLayout(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+
+            }
         }
     }
+}
+
+@Composable
+fun CalculoCombustivelLayout(name: String, modifier: Modifier = Modifier) {
+
 }

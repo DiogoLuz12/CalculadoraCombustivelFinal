@@ -15,7 +15,9 @@
         <activity
             android:name=".CompareFuelsActivity"
             android:exported="false" />
-        <activity android:name="com.example.calculadoracarroseletricos.EletricoActivity"></activity>
+        <activity
+            android:name="com.example.calculadoracarroseletricos.EletricoActivity"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true"
