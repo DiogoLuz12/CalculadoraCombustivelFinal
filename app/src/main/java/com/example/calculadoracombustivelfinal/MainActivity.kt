@@ -97,6 +97,10 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Top
 
     ) {
+        Button(onClick = { navigateToActivity(context, CompareFuelsActivity::class.java) }
+        ) {
+            Text(text = "Comparador de Combustíveis")
+        }
         Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }
         ) {
             Text(text = "Calculadora Eletrico")
