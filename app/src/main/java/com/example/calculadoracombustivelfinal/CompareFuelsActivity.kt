@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,8 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.calculadoracombustivelfinal.ui.theme.CalculadoraCombustivelFinalTheme
 
 class CompareFuelsActivity : ComponentActivity() {
@@ -51,7 +48,7 @@ fun CompareLayout(name: String, modifier: Modifier = Modifier) {
     var gasolinePrice by remember { mutableStateOf("") }
     var gasoleoPrice by remember { mutableStateOf("") }
     var gasolineConsumption by remember { mutableStateOf("") }
-    var ethanolConsumption by remember { mutableStateOf("") }
+    var gasoleoConsumption by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
 
     Column(
@@ -90,9 +87,9 @@ fun CompareLayout(name: String, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
 
         EditNumberField(
-            label = R.string.consumo_etanol,
-            value = ethanolConsumption,
-            onValueChanged = { ethanolConsumption = it }
+            label = R.string.consumo_gasoleo,
+            value = gasoleoConsumption,
+            onValueChanged = { gasoleoConsumption = it }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -101,7 +98,7 @@ fun CompareLayout(name: String, modifier: Modifier = Modifier) {
             val gasolinePriceValue = gasolinePrice.toDoubleOrNull() ?: 0.0
             val ethanolPriceValue = gasoleoPrice.toDoubleOrNull() ?: 0.0
             val gasolineConsumptionValue = gasolineConsumption.toDoubleOrNull() ?: 0.0
-            val ethanolConsumptionValue = ethanolConsumption.toDoubleOrNull() ?: 0.0
+            val ethanolConsumptionValue = gasoleoConsumption.toDoubleOrNull() ?: 0.0
 
             if (gasolinePriceValue > 0 && ethanolPriceValue > 0 && gasolineConsumptionValue > 0 && ethanolConsumptionValue > 0) {
                 val costPerKmGasoline = gasolinePriceValue / gasolineConsumptionValue
@@ -120,6 +117,7 @@ fun CompareLayout(name: String, modifier: Modifier = Modifier) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+        Text(text = result)
 
     }
 }
