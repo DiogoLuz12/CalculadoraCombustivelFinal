@@ -8,4 +8,9 @@
     <string name="app_name2">Calculadora Elétrica</string>
     <string name="consumo_Medio2">Consumo médio (kWh/100km)</string>
     <string name="precoEnergia">Preço da Energia (€/kWh)</string>
+    <string name="app_name3">Calculadora de Combustível</string>
+    <string name="preco_gasolina">Preço da Gasolina (EUR)</string>
+    <string name="preco_etanol">Preço do Etanol (EUR)</string>
+    <string name="consumo_gasolina">Consumo da Gasolina (km/L)</string>
+    <string name="consumo_etanol">Consumo do Etanol (km/L)</string>
 </resources>
