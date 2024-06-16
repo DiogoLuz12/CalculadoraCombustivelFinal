@@ -96,11 +96,11 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
     ) {
         Button(onClick = { navigateToActivity(context, CompareFuelsActivity::class.java) }
         ) {
-            Text(text = "Comparador de Combustíveis")
+            Text(text = stringResource(R.string.app_name3))
         }
         Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }
         ) {
-            Text(text = "Calculadora Eletrico")
+            Text(text = stringResource(R.string.app_name2))
         }
 
         Text(

@@ -49,6 +49,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.calculadoracombustivelfinal.CompareFuelsActivity
 import com.example.calculadoracombustivelfinal.MainActivity
 import com.example.calculadoracombustivelfinal.R
 import com.example.calculadoracombustivelfinal.navigateToActivity
@@ -105,6 +106,7 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
 
         Text(
             text = stringResource(R.string.app_name2), style = MaterialTheme.typography.headlineSmall,
