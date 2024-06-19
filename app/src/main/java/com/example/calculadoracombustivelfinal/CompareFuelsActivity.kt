@@ -32,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.calculadoracarroseletricos.EletricoActivity
 import com.example.calculadoracombustivelfinal.ui.theme.CalculadoraCombustivelFinalTheme
 
 class CompareFuelsActivity : ComponentActivity() {
@@ -124,18 +123,18 @@ fun CompareLayout(name: String, modifier: Modifier = Modifier) {
 
         Button(onClick = {
             val gasolinePriceValue = gasolinePrice.toDoubleOrNull() ?: 0.0
-            val ethanolPriceValue = gasoleoPrice.toDoubleOrNull() ?: 0.0
+            val gasoleoPriceValue = gasoleoPrice.toDoubleOrNull() ?: 0.0
             val gasolineConsumptionValue = gasolineConsumption.toDoubleOrNull() ?: 0.0
-            val ethanolConsumptionValue = gasoleoConsumption.toDoubleOrNull() ?: 0.0
+            val gasoleoConsumptionValue = gasoleoConsumption.toDoubleOrNull() ?: 0.0
 
-            if (gasolinePriceValue > 0 && ethanolPriceValue > 0 && gasolineConsumptionValue > 0 && ethanolConsumptionValue > 0) {
+            if (gasolinePriceValue > 0 && gasoleoPriceValue > 0 && gasolineConsumptionValue > 0 && gasoleoConsumptionValue > 0) {
                 val costPerKmGasoline = gasolinePriceValue / gasolineConsumptionValue
-                val costPerKmEthanol = ethanolPriceValue / ethanolConsumptionValue
+                val costPerKmEthanol = gasoleoPriceValue / gasoleoConsumptionValue
 
                 result = if (costPerKmGasoline < costPerKmEthanol) {
                     "Gasolina é mais econômica"
                 } else {
-                    "Etanol é mais econômico"
+                    "Gasóleo é mais econômico"
                 }
             } else {
                 result = "Por favor, insira valores válidos."
