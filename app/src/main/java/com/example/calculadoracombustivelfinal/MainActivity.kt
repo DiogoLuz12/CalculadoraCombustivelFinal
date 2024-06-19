@@ -188,9 +188,6 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
     }
 }
 
-fun setResult(resultOk: Int, resultsIntent: Intent) {
-
-}
 
 fun navigateToActivity(context: Context, activityClass: Class<*>) {
     context.startActivity(Intent(context, activityClass))
