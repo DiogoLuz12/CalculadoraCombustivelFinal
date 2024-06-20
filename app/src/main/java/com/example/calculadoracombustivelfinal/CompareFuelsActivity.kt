@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,10 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.example.calculadoracombustivelfinal.ui.theme.CalculadoraCombustivelFinalTheme
 
 class CompareFuelsActivity : ComponentActivity() {
+    private val viewModel: CalculadoraViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -43,7 +41,8 @@ class CompareFuelsActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()){innerPadding ->
                     CompareLayout(
                         name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        viewModel = viewModel
                     )
                 }
 
@@ -53,14 +52,13 @@ class CompareFuelsActivity : ComponentActivity() {
 }
 
 @Composable
-fun CompareLayout(name: String, modifier: Modifier = Modifier) {
+fun CompareLayout(
+    name: String,
+    modifier: Modifier = Modifier,
+    viewModel: CalculadoraViewModel) {
 
     val context = LocalContext.current
-    var gasolinePrice by remember { mutableStateOf("") }
-    var gasoleoPrice by remember { mutableStateOf("") }
-    var gasolineConsumption by remember { mutableStateOf("") }
-    var gasoleoConsumption by remember { mutableStateOf("") }
-    var result by remember { mutableStateOf("") }
+
 
     IconButton(
         onClick = {
@@ -91,60 +89,60 @@ fun CompareLayout(name: String, modifier: Modifier = Modifier) {
 
         EditNumberField(
             label = R.string.preco_gasolina,
-            value = gasolinePrice,
-            onValueChanged = { gasolinePrice = it }
+            value = viewModel.gasolinePrice.value,
+            onValueChanged = { viewModel.gasolinePrice.value = it }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         EditNumberField(
             label = R.string.preco_gasoleo,
-            value = gasoleoPrice,
-            onValueChanged = { gasoleoPrice = it }
+            value = viewModel.gasoleoPrice.value,
+            onValueChanged = { viewModel.gasoleoPrice.value = it }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         EditNumberField(
             label = R.string.consumo_gasolina,
-            value = gasolineConsumption,
-            onValueChanged = { gasolineConsumption = it }
+            value = viewModel.gasolineConsumption.value,
+            onValueChanged = { viewModel.gasolineConsumption.value = it }
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         EditNumberField(
             label = R.string.consumo_gasoleo,
-            value = gasoleoConsumption,
-            onValueChanged = { gasoleoConsumption = it }
+            value = viewModel.gasoleoConsumption.value,
+            onValueChanged = { viewModel.gasoleoConsumption.value = it }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            val gasolinePriceValue = gasolinePrice.toDoubleOrNull() ?: 0.0
-            val gasoleoPriceValue = gasoleoPrice.toDoubleOrNull() ?: 0.0
-            val gasolineConsumptionValue = gasolineConsumption.toDoubleOrNull() ?: 0.0
-            val gasoleoConsumptionValue = gasoleoConsumption.toDoubleOrNull() ?: 0.0
+            val gasolinePriceValue = viewModel.gasolinePrice.value.toDoubleOrNull() ?: 0.0
+            val gasoleoPriceValue = viewModel.gasoleoPrice.value.toDoubleOrNull() ?: 0.0
+            val gasolineConsumptionValue = viewModel.gasolineConsumption.value.toDoubleOrNull() ?: 0.0
+            val gasoleoConsumptionValue = viewModel.gasoleoConsumption.value.toDoubleOrNull() ?: 0.0
 
             if (gasolinePriceValue > 0 && gasoleoPriceValue > 0 && gasolineConsumptionValue > 0 && gasoleoConsumptionValue > 0) {
                 val costPerKmGasoline = gasolinePriceValue / gasolineConsumptionValue
                 val costPerKmEthanol = gasoleoPriceValue / gasoleoConsumptionValue
 
-                result = if (costPerKmGasoline < costPerKmEthanol) {
+                viewModel.result.value = if (costPerKmGasoline < costPerKmEthanol) {
                     "Gasolina é mais econômica"
                 } else {
                     "Gasóleo é mais econômico"
                 }
             } else {
-                result = "Por favor, insira valores válidos."
+                viewModel.result.value = "Por favor, insira valores válidos."
             }
         }) {
             Text(text = "Comparar")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = result)
+        Text(text = viewModel.result.value)
 
     }
 }
@@ -153,7 +151,7 @@ fun CompareLayout(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun CompararPreview(){
     CalculadoraCombustivelFinalTheme {
-        CompareLayout("Android")
+        CompareLayout("Android",  viewModel = CalculadoraViewModel())
     }
 }
 

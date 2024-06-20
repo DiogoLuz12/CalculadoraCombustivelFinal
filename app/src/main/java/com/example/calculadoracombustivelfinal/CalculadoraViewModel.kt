@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 
+
 class CalculadoraViewModel : ViewModel() {
     var nomeViagem = mutableStateOf("")
     var distanciaTotal = mutableStateOf("")
@@ -14,4 +15,11 @@ class CalculadoraViewModel : ViewModel() {
     val custoTotal = mutableDoubleStateOf(0.0)
     val historico = mutableStateListOf<CalculoCombustivel>()
     var showError = mutableStateOf(false)
+
+
+    var gasolinePrice =  mutableStateOf("")
+    var gasoleoPrice = mutableStateOf("")
+    var gasolineConsumption =  mutableStateOf("")
+    var gasoleoConsumption =  mutableStateOf("")
+    var result =  mutableStateOf("")
 }
