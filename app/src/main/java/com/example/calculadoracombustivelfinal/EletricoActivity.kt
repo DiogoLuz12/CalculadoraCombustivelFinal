@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,6 +47,7 @@ import com.example.calculadoracombustivelfinal.ui.theme.CalculadoraCombustivelFi
 
 
 class EletricoActivity : ComponentActivity() {
+    private val viewModel: CalculadoraViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -54,7 +56,8 @@ class EletricoActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     CalculadoraEletricaLayout(
                         name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        viewModel = viewModel
                     )
                 }
             }
@@ -64,17 +67,13 @@ class EletricoActivity : ComponentActivity() {
 
 
 @Composable
-fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
+fun CalculadoraEletricaLayout(
+    name: String,
+    modifier: Modifier = Modifier,
+    viewModel: CalculadoraViewModel) {
 
     val context = LocalContext.current
-    var nomeViagem by remember { mutableStateOf("") }
-    var distanciaTotal by remember { mutableStateOf("") }
-    var consumoMedio by remember { mutableStateOf("") }
-    var precoEnergia by remember { mutableStateOf("") }
 
-    val custoTotal = remember { mutableDoubleStateOf(0.0) }
-    val historico = remember { mutableStateListOf<CalculoEnergia>() }
-    var showError by remember { mutableStateOf(false) }
 
     IconButton(
         onClick = {
@@ -103,8 +102,8 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
                 .align(alignment = Alignment.Start),
         )
         TextField(
-            value = nomeViagem,
-            onValueChange = { nomeViagem = it },
+            value = viewModel.nomeViagem.value,
+            onValueChange = { viewModel.nomeViagem.value = it },
             label = { Text("Nome da Viagem") },
             modifier = Modifier
                 .padding(bottom = 30.dp)
@@ -112,24 +111,24 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
         )
         EditNumberField(
             label = R.string.distanciaAserPercorrida,
-            value = distanciaTotal,
-            onValueChanged = { distanciaTotal = it },
+            value = viewModel.distanciaTotal.value,
+            onValueChanged = { viewModel.distanciaTotal.value = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth(),
         )
         EditNumberField(
             label = R.string.consumo_Medio2,
-            value = consumoMedio,
-            onValueChanged = { consumoMedio = it },
+            value = viewModel.consumoMedio.value,
+            onValueChanged = { viewModel.consumoMedio.value = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth()
         )
         EditNumberField(
             label = R.string.precoEnergia,
-            value = precoEnergia,
-            onValueChanged = { precoEnergia = it },
+            value = viewModel.precoEnergia.value,
+            onValueChanged = { viewModel.precoEnergia.value = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth()
@@ -137,18 +136,15 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
         Button(
             onClick = {
 
-                val distancia = distanciaTotal.toDoubleOrNull() ?: 0.0
-                val consumo = consumoMedio.toDoubleOrNull() ?: 0.0
-                val preco = precoEnergia.toDoubleOrNull() ?: 0.0
+                val distancia = viewModel.distanciaTotal.value.toDoubleOrNull() ?: 0.0
+                val consumo = viewModel.consumoMedio.value.toDoubleOrNull() ?: 0.0
+                val preco = viewModel.precoEnergia.value.toDoubleOrNull() ?: 0.0
                 if (distancia >= 0 && consumo >= 0 && preco >= 0) {
                     val custo = calculateTotalCostEletrico(distancia, consumo, preco)
-                    val resultsIntent = Intent()
-                    resultsIntent.putExtra("ELETRIC_COST", custo)
-                    custoTotal.value = custo
-                    custoTotal.doubleValue = custo
-                    historico.add(CalculoEnergia(distancia, consumo, preco, custo, nomeViagem))
+                    viewModel.custoTotal.value = custo
+                    viewModel.historicoEnergia.add(CalculoEnergia(distancia, consumo, preco, custo, viewModel.nomeViagem.value))
                 } else {
-                    showError = true
+                    viewModel.showError.value = true
                 }
             },
             modifier = Modifier.padding(bottom = 32.dp),
@@ -156,19 +152,19 @@ fun CalculadoraEletricaLayout(name: String, modifier: Modifier = Modifier) {
             Text(text = "Calcular")
         }
         Text(
-            text = stringResource(R.string.custo_total, custoTotal.doubleValue),
+            text = stringResource(R.string.custo_total, viewModel.custoTotal.doubleValue),
             style = MaterialTheme.typography.bodyLarge,
         )
         Spacer(modifier = Modifier.height(20.dp))
-        HistoricoListEletrico(historico)
+        HistoricoListEletrico(viewModel.historicoEnergia)
         Spacer(modifier = Modifier.height(150.dp))
 
-        if (showError) {
+        if (viewModel.showError.value) {
             // Utilizado para mensagens temporárias
             Snackbar(
                 modifier = Modifier.padding(16.dp),
                 action = {
-                    Button(onClick = { showError = false }) {
+                    Button(onClick = { viewModel.showError.value = false }) {
                         Text(text = "OK")
                     }
                 }
