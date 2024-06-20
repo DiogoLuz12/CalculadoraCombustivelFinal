@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,12 +30,6 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,6 +42,7 @@ import com.example.calculadoracombustivelfinal.ui.theme.CalculadoraCombustivelFi
 
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: CalculadoraViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -55,7 +51,8 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     CalculadoraLayout(
                         name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        viewModel = viewModel
                     )
                 }
             }
@@ -65,22 +62,14 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
-
+fun CalculadoraLayout(
+    name: String,
+    modifier: Modifier = Modifier,
+    viewModel: CalculadoraViewModel
+) {
     val context = LocalContext.current
-    var nomeViagem by remember { mutableStateOf("") }
-    var distanciaTotal by remember { mutableStateOf("") }
-    var consumoMedio by remember { mutableStateOf("") }
-    var precoCombustivel by remember { mutableStateOf("") }
 
-    val custoTotal = remember { mutableDoubleStateOf(0.0) }
-    val historico = remember { mutableStateListOf<CalculoCombustivel>() }
-    var showError by remember { mutableStateOf(false) }
-
-
-
-
-    Column (
+    Column(
         modifier = Modifier
             .statusBarsPadding()
             .padding(horizontal = 40.dp)
@@ -88,27 +77,23 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
             .safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
-
     ) {
-        Button(onClick = { navigateToActivity(context, CompareFuelsActivity::class.java) }
-        ) {
+        Button(onClick = { navigateToActivity(context, CompareFuelsActivity::class.java) }) {
             Text(text = stringResource(R.string.app_name3))
         }
-        Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }
-        ) {
+        Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
             Text(text = stringResource(R.string.app_name2))
         }
 
-
         Text(
-            text = stringResource(R.string.app_name),style = MaterialTheme.typography.headlineSmall,
+            text = stringResource(R.string.app_name), style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
                 .padding(bottom = 15.dp, top = 35.dp)
                 .align(alignment = Alignment.Start),
         )
         TextField(
-            value = nomeViagem,
-            onValueChange = { nomeViagem = it },
+            value = viewModel.nomeViagem.value,
+            onValueChange = { viewModel.nomeViagem.value = it },
             label = { Text("Nome da Viagem") },
             modifier = Modifier
                 .padding(bottom = 30.dp)
@@ -116,40 +101,39 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
         )
         EditNumberField(
             label = R.string.distanciaAserPercorrida,
-            value = distanciaTotal,
-            onValueChanged = { distanciaTotal = it },
+            value = viewModel.distanciaTotal.value,
+            onValueChanged = { viewModel.distanciaTotal.value = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth(),
         )
         EditNumberField(
             label = R.string.consumo_Medio,
-            value = consumoMedio,
-            onValueChanged = { consumoMedio = it },
+            value = viewModel.consumoMedio.value,
+            onValueChanged = { viewModel.consumoMedio.value = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth()
         )
         EditNumberField(
             label = R.string.precoCombus,
-            value = precoCombustivel,
-            onValueChanged = { precoCombustivel = it },
+            value = viewModel.precoCombustivel.value,
+            onValueChanged = { viewModel.precoCombustivel.value = it },
             modifier = Modifier
                 .padding(bottom = 30.dp)
                 .fillMaxWidth()
         )
         Button(
             onClick = {
-
-                val distancia = distanciaTotal.toDoubleOrNull() ?: 0.0
-                val consumo = consumoMedio.toDoubleOrNull() ?: 0.0
-                val preco = precoCombustivel.toDoubleOrNull() ?: 0.0
+                val distancia = viewModel.distanciaTotal.value.toDoubleOrNull() ?: 0.0
+                val consumo = viewModel.consumoMedio.value.toDoubleOrNull() ?: 0.0
+                val preco = viewModel.precoCombustivel.value.toDoubleOrNull() ?: 0.0
                 if (distancia >= 0 && consumo >= 0 && preco >= 0) {
                     val custo = calculateTotalCost(distancia, consumo, preco)
-                    custoTotal.value = custo
-                    historico.add(CalculoCombustivel(distancia, consumo, preco, custo, nomeViagem))
+                    viewModel.custoTotal.value = custo
+                    viewModel.historico.add(CalculoCombustivel(distancia, consumo, preco, custo, viewModel.nomeViagem.value))
                 } else {
-                    showError = true
+                    viewModel.showError.value = true
                 }
             },
             modifier = Modifier.padding(bottom = 32.dp),
@@ -157,29 +141,25 @@ fun CalculadoraLayout(name: String, modifier: Modifier = Modifier) {
             Text(text = "Calcular")
         }
         Text(
-            text = stringResource(R.string.custo_total, custoTotal.doubleValue),
+            text = stringResource(R.string.custo_total, viewModel.custoTotal.value),
             style = MaterialTheme.typography.bodyLarge,
         )
         Spacer(modifier = Modifier.height(20.dp))
-        HistoricoList(historico)
+        HistoricoList(viewModel.historico)
         Spacer(modifier = Modifier.height(150.dp))
 
-        if (showError) {
-            //Utilizado para mensagens temporárias
+        if (viewModel.showError.value) {
             Snackbar(
                 modifier = Modifier.padding(16.dp),
                 action = {
-                    Button(onClick = { showError = false }) {
+                    Button(onClick = { viewModel.showError.value = false }) {
                         Text(text = "OK")
                     }
                 }
             ) {
                 Text("Por favor, insira valores válidos.")
             }
-
-
         }
-
     }
 }
 
@@ -248,6 +228,6 @@ fun calculateTotalCost(distancia: Double, consumoMedio: Double, precoCombustivel
 @Composable
 fun GreetingPreview() {
     CalculadoraCombustivelFinalTheme {
-        CalculadoraLayout("Android")
+        CalculadoraLayout("Android", viewModel = CalculadoraViewModel())
     }
 }
