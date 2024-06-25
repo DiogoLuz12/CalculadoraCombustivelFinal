@@ -31,4 +31,8 @@ class CalculadoraViewModel : ViewModel() {
         historicoEnergia.clear()
     }
 
+    fun limparHistoricoNormal(){
+        historico.clear()
+    }
+
 }

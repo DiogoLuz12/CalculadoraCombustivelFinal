@@ -212,10 +212,10 @@ fun HistoricoListEletrico(historico: List<CalculoEnergia>, viewModel: Calculador
                 Divider(color = Color.Gray, thickness = 1.dp)
             }
         }
-
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = { viewModel.limparHistorico() },
-            modifier = Modifier.align(Alignment.End)
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text("Limpar Histórico")
         }

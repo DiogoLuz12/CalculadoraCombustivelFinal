@@ -162,7 +162,7 @@ fun CalculadoraLayout(
             style = MaterialTheme.typography.bodyLarge,
         )
         Spacer(modifier = Modifier.height(20.dp))
-        HistoricoList(viewModel.historico)
+        HistoricoList(viewModel.historico, viewModel)
         Spacer(modifier = Modifier.height(150.dp))
 
         if (viewModel.showError.value) {
@@ -215,7 +215,7 @@ data class CalculoCombustivel(
 
 
 @Composable
-fun HistoricoList(historico: List<CalculoCombustivel>) {
+fun HistoricoList(historico: List<CalculoCombustivel>, viewModel: CalculadoraViewModel) {
     Column {
         Text(
             text = stringResource(R.string.historico_de_calculos),
@@ -233,6 +233,14 @@ fun HistoricoList(historico: List<CalculoCombustivel>) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Divider(color = Color.Gray, thickness = 1.dp)
             }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { viewModel.limparHistoricoNormal() },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text("Limpar Histórico")
         }
     }
 }
