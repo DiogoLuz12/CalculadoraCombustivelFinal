@@ -146,6 +146,7 @@ fun CalculadoraLayout(
                     viewModel.showError.value = true
                 }
             },
+            enabled = canCalculate(),
             modifier = Modifier.padding(bottom = 32.dp),
         ) {
             Text(text = "Calcular")
