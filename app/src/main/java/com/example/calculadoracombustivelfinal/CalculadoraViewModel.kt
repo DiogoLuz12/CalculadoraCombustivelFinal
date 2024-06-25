@@ -27,5 +27,8 @@ class CalculadoraViewModel : ViewModel() {
     var precoEnergia = mutableStateOf("")
     val historicoEnergia = mutableStateListOf<CalculoEnergia>()
 
+    fun limparHistorico() {
+        historicoEnergia.clear()
+    }
 
 }
