@@ -73,6 +73,13 @@ fun CalculadoraLayout(
 ) {
     val context = LocalContext.current
 
+    fun canCalculate(): Boolean {
+        return viewModel.nomeViagem.value.isNotEmpty() &&
+                viewModel.distanciaTotal.value.isNotEmpty() &&
+                viewModel.consumoMedio.value.isNotEmpty() &&
+                viewModel.precoCombustivel.value.isNotEmpty()
+    }
+
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -82,12 +89,12 @@ fun CalculadoraLayout(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-            Button(onClick = { navigateToActivity(context, CompareFuelsActivity::class.java) }) {
-                Text(text = stringResource(R.string.app_name3))
-            }
-            Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
-                Text(text = stringResource(R.string.app_name2))
-            }
+        Button(onClick = { navigateToActivity(context, CompareFuelsActivity::class.java) }) {
+            Text(text = stringResource(R.string.app_name3))
+        }
+        Button(onClick = { navigateToActivity(context, EletricoActivity::class.java) }) {
+            Text(text = stringResource(R.string.app_name2))
+        }
         Text(
             text = stringResource(R.string.app_name), style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier
