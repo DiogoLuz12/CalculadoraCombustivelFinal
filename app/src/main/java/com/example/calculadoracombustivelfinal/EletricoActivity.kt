@@ -159,7 +159,7 @@ fun CalculadoraEletricaLayout(
             style = MaterialTheme.typography.bodyLarge,
         )
         Spacer(modifier = Modifier.height(20.dp))
-        HistoricoListEletrico(viewModel.historicoEnergia)
+        HistoricoListEletrico(viewModel.historicoEnergia, viewModel)
         Spacer(modifier = Modifier.height(150.dp))
 
         if (viewModel.showError.value) {
@@ -193,7 +193,7 @@ data class CalculoEnergia(
 )
 
 @Composable
-fun HistoricoListEletrico(historico: List<CalculoEnergia>) {
+fun HistoricoListEletrico(historico: List<CalculoEnergia>, viewModel: CalculadoraViewModel) {
     Column {
         Text(
             text = stringResource(R.string.historico_de_calculos),
@@ -211,6 +211,13 @@ fun HistoricoListEletrico(historico: List<CalculoEnergia>) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Divider(color = Color.Gray, thickness = 1.dp)
             }
+        }
+
+        Button(
+            onClick = { viewModel.limparHistorico() },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Limpar Histórico")
         }
     }
 }
