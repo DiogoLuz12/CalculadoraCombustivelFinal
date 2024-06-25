@@ -196,16 +196,23 @@ data class CalculoEnergia(
 @Composable
 fun HistoricoListEletrico(historico: List<CalculoEnergia>) {
     Column {
-        Text(text = stringResource(R.string.historico_de_calculos), style = MaterialTheme.typography.headlineSmall)
-        for (calculo in historico) {
+        Text(
+            text = stringResource(R.string.historico_de_calculos),
+            style = MaterialTheme.typography.headlineSmall
+        )
+        for (index in historico.indices) {
+            val calculo = historico[index]
             Row {
                 Text(
                     text = "Nome da viagem: ${calculo.nomeViagem}, Distância: ${calculo.distancia} km, Consumo: ${calculo.consumoMedio} kWh/100 km, Preço: €${calculo.precoEnergia}/kWh, Custo: €${String.format("%.2f", calculo.custoTotal)}",
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
+            if (index < historico.size - 1) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Divider(color = Color.Gray, thickness = 1.dp)
+            }
         }
-        Divider(color = Color.Gray, thickness = 1.dp)
     }
 }
 
