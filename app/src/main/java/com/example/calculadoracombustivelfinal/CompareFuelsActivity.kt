@@ -63,13 +63,6 @@ fun CompareLayout(
             viewModel.gasolineConsumption.value.isNotEmpty() &&
             viewModel.gasoleoConsumption.value.isNotEmpty()
 
-    IconButton(
-        onClick = {
-            navigateToActivity(context, MainActivity::class.java)
-        }
-    ) {
-        Icon(Icons.Default.ArrowBack, contentDescription = "back")
-    }
 
     Column(
         modifier = modifier
@@ -81,6 +74,14 @@ fun CompareLayout(
         verticalArrangement = Arrangement.Center
     ) {
 
+
+        IconButton(
+            onClick = {
+                navigateToActivity(context, MainActivity::class.java)
+            }
+        ) {
+            Icon(Icons.Default.ArrowBack, contentDescription = "back")
+        }
         Text(
             text = "Comparar Combustíveis",
             style = MaterialTheme.typography.headlineSmall,

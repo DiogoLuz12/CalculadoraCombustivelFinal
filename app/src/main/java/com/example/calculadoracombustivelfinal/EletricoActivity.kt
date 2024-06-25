@@ -78,15 +78,6 @@ fun CalculadoraEletricaLayout(
             viewModel.consumoMedio.value.isNotEmpty() &&
             viewModel.precoEnergia.value.isNotEmpty()
 
-    IconButton(
-        onClick = {
-            navigateToActivity(context, MainActivity::class.java)
-        }
-    ) {
-        Icon(Icons.Default.ArrowBack, contentDescription = "back")
-    }
-    Spacer(modifier = Modifier
-        .padding(horizontal = 90.dp))
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -97,6 +88,13 @@ fun CalculadoraEletricaLayout(
         verticalArrangement = Arrangement.Center
     ) {
 
+        IconButton(
+            onClick = {
+                navigateToActivity(context, MainActivity::class.java)
+            }
+        ) {
+            Icon(Icons.Default.ArrowBack, contentDescription = "back")
+        }
 
         Text(
             text = stringResource(R.string.app_name2), style = MaterialTheme.typography.headlineSmall,
