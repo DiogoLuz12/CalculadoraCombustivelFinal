@@ -135,15 +135,21 @@ fun CalculadoraLayout(
         )
         Button(
             onClick = {
-                val distancia = viewModel.distanciaTotal.value.toDoubleOrNull() ?: 0.0
-                val consumo = viewModel.consumoMedio.value.toDoubleOrNull() ?: 0.0
-                val preco = viewModel.precoCombustivel.value.toDoubleOrNull() ?: 0.0
-                if (distancia >= 0 && consumo >= 0 && preco >= 0) {
+                val distancia = viewModel.distanciaTotal.value.toDoubleOrNull()
+                val consumo = viewModel.consumoMedio.value.toDoubleOrNull()
+                val preco = viewModel.precoCombustivel.value.toDoubleOrNull()
+
+                if (viewModel.nomeViagem.value.isEmpty() ||
+                    distancia == null || distancia < 0.0 ||
+                    consumo == null || consumo < 0.0 ||
+                    preco == null || preco < 0.0) {
+
+                    viewModel.showError.value = true
+                } else {
+
                     val custo = calculateTotalCost(distancia, consumo, preco)
                     viewModel.custoTotal.value = custo
                     viewModel.historico.add(CalculoCombustivel(distancia, consumo, preco, custo, viewModel.nomeViagem.value))
-                } else {
-                    viewModel.showError.value = true
                 }
             },
             enabled = canCalculate(),
@@ -168,7 +174,7 @@ fun CalculadoraLayout(
                     }
                 }
             ) {
-                Text("Por favor, insira valores válidos.")
+                Text("Por favor, preencha todos os campos corretamente.")
             }
         }
     }
