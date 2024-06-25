@@ -142,12 +142,13 @@ fun CalculadoraEletricaLayout(
                 val distancia = viewModel.distanciaTotal.value.toDoubleOrNull() ?: 0.0
                 val consumo = viewModel.consumoMedio.value.toDoubleOrNull() ?: 0.0
                 val preco = viewModel.precoEnergia.value.toDoubleOrNull() ?: 0.0
-                if (distancia >= 0 && consumo >= 0 && preco >= 0) {
-                    val custo = calculateTotalCostEletrico(distancia, consumo, preco)
-                    viewModel.custoTotal.value = custo
-                    viewModel.historicoEnergia.add(CalculoEnergia(distancia, consumo, preco, custo, viewModel.nomeViagem.value))
-                } else {
+                if (viewModel.nomeViagem.value.isEmpty() || distancia <= 0.0 || consumo <= 0.0 || preco <= 0.0
+                ) {
                     viewModel.showError.value = true
+                } else {
+                    val custo = calculateTotalCostEletrico(distancia, consumo, preco)
+                    viewModel.custoTotal.doubleValue = custo
+                    viewModel.historicoEnergia.add(CalculoEnergia(distancia, consumo, preco, custo, viewModel.nomeViagem.value))
                 }
             },
             enabled = enableCalculate,

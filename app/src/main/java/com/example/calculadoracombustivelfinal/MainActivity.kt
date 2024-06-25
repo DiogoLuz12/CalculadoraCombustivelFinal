@@ -73,12 +73,12 @@ fun CalculadoraLayout(
 ) {
     val context = LocalContext.current
 
-    fun canCalculate(): Boolean {
-        return viewModel.nomeViagem.value.isNotEmpty() &&
+    val canCalculate =
+                viewModel.nomeViagem.value.isNotEmpty() &&
                 viewModel.distanciaTotal.value.isNotEmpty() &&
                 viewModel.consumoMedio.value.isNotEmpty() &&
                 viewModel.precoCombustivel.value.isNotEmpty()
-    }
+
 
     Column(
         modifier = Modifier
@@ -148,11 +148,11 @@ fun CalculadoraLayout(
                 } else {
 
                     val custo = calculateTotalCost(distancia, consumo, preco)
-                    viewModel.custoTotal.value = custo
+                    viewModel.custoTotal.doubleValue = custo
                     viewModel.historico.add(CalculoCombustivel(distancia, consumo, preco, custo, viewModel.nomeViagem.value))
                 }
             },
-            enabled = canCalculate(),
+            enabled = canCalculate,
             modifier = Modifier.padding(bottom = 32.dp),
         ) {
             Text(text = "Calcular")
