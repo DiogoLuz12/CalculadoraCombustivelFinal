@@ -58,6 +58,10 @@ fun CompareLayout(
     viewModel: CalculadoraViewModel
 ) {
     val context = LocalContext.current
+    val enableCalculate = viewModel.gasolinePrice.value.isNotEmpty() &&
+            viewModel.gasoleoPrice.value.isNotEmpty() &&
+            viewModel.gasolineConsumption.value.isNotEmpty() &&
+            viewModel.gasoleoConsumption.value.isNotEmpty()
 
     IconButton(
         onClick = {
@@ -136,7 +140,9 @@ fun CompareLayout(
             } else {
                 viewModel.result.value = "Por favor, insira valores válidos."
             }
-        }) {
+        },
+            enabled = enableCalculate
+        ){
             Text(text = "Comparar")
         }
 
