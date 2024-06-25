@@ -73,7 +73,10 @@ fun CalculadoraEletricaLayout(
     viewModel: CalculadoraViewModel) {
 
     val context = LocalContext.current
-
+    val enableCalculate = viewModel.nomeViagem.value.isNotEmpty() &&
+            viewModel.distanciaTotal.value.isNotEmpty() &&
+            viewModel.consumoMedio.value.isNotEmpty() &&
+            viewModel.precoEnergia.value.isNotEmpty()
 
     IconButton(
         onClick = {
@@ -147,6 +150,7 @@ fun CalculadoraEletricaLayout(
                     viewModel.showError.value = true
                 }
             },
+            enabled = enableCalculate,
             modifier = Modifier.padding(bottom = 32.dp),
         ) {
             Text(text = "Calcular")
