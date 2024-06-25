@@ -55,10 +55,9 @@ class CompareFuelsActivity : ComponentActivity() {
 fun CompareLayout(
     name: String,
     modifier: Modifier = Modifier,
-    viewModel: CalculadoraViewModel) {
-
+    viewModel: CalculadoraViewModel
+) {
     val context = LocalContext.current
-
 
     IconButton(
         onClick = {
@@ -67,10 +66,9 @@ fun CompareLayout(
     ) {
         Icon(Icons.Default.ArrowBack, contentDescription = "back")
     }
-    Spacer(modifier = Modifier
-        .padding(horizontal = 90.dp))
+
     Column(
-        modifier = Modifier
+        modifier = modifier
             .statusBarsPadding()
             .padding(horizontal = 40.dp)
             .verticalScroll(rememberScrollState())
@@ -79,11 +77,11 @@ fun CompareLayout(
         verticalArrangement = Arrangement.Center
     ) {
 
-
-        Text(text = "Comparar Combustíveis", style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier
-                .padding(bottom = 15.dp, top = 35.dp)
-                .align(alignment = Alignment.Start),)
+        Text(
+            text = "Comparar Combustíveis",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(bottom = 15.dp, top = 35.dp)
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -125,11 +123,12 @@ fun CompareLayout(
             val gasolineConsumptionValue = viewModel.gasolineConsumption.value.toDoubleOrNull() ?: 0.0
             val gasoleoConsumptionValue = viewModel.gasoleoConsumption.value.toDoubleOrNull() ?: 0.0
 
-            if (gasolinePriceValue > 0 && gasoleoPriceValue > 0 && gasolineConsumptionValue > 0 && gasoleoConsumptionValue > 0) {
+            if (gasolinePriceValue > 0 && gasoleoPriceValue > 0 &&
+                gasolineConsumptionValue > 0 && gasoleoConsumptionValue > 0) {
                 val costPerKmGasoline = gasolinePriceValue / gasolineConsumptionValue
-                val costPerKmEthanol = gasoleoPriceValue / gasoleoConsumptionValue
+                val costPerKmGasoleo = gasoleoPriceValue / gasoleoConsumptionValue
 
-                viewModel.result.value = if (costPerKmGasoline < costPerKmEthanol) {
+                viewModel.result.value = if (costPerKmGasoline < costPerKmGasoleo) {
                     "Gasolina é mais econômica"
                 } else {
                     "Gasóleo é mais econômico"
@@ -142,8 +141,8 @@ fun CompareLayout(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = viewModel.result.value)
 
+        Text(text = viewModel.result.value)
     }
 }
 
